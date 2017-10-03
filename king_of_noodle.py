@@ -1,15 +1,25 @@
 import arcade
+ 
+SCREEN_WIDTH = 1191
+SCREEN_HEIGHT = 670
 
-screen_w = 1280
-screen_h = 1080
 class SpaceGameWindow(arcade.Window):
-    def init(self,screen_w,creen_h):
-        super.init(screen_w,screen_h)
+
+    def on_draw(self):
+        arcade.start_render()
+        self.bg.draw()
+        self.title.draw()
+
+    def __init__(self, width, height):
+        super().__init__(width, height)
+ 
         arcade.set_background_color(arcade.color.WHITE)
 
+        self.bg = arcade.Sprite('image/kitchen.png')
+        self.bg.set_position(width//2,height//2)
+        self.title = arcade.Sprite('image/kon_6.png')
+        self.title.set_position(width-400,height-85)
 
-def main():
-    window = SpaceGameWindow(screen_w,screen_h)
+if __name__ == '__main__':
+    window = SpaceGameWindow(SCREEN_WIDTH, SCREEN_HEIGHT)
     arcade.run()
-
-main()
