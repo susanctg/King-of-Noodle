@@ -1,6 +1,6 @@
 import arcade
 import arcade.key
-from noodle import Noodle,World
+from noodle import World#,Noodle,Water
 
 SCREEN_WIDTH = 1191
 SCREEN_HEIGHT = 670
@@ -15,12 +15,15 @@ class SpaceGameWindow(arcade.Window):
         self.bg.set_position(width//2,height//2)
         self.title = arcade.Sprite('image/kon_6.png')
         self.title.set_position(width-400,height-85)
-        self.bowl = arcade.Sprite('image/bowl.png')
+        self.bowl = arcade.Sprite('image/bowl.png',0.65)
         self.bowl.set_position(width-400,250)
-        self.noodleS = arcade.Sprite('image/noodles2.png')
+        self.noodleS = arcade.Sprite('image/noodles2.png',0.65)
         self.noodleS.set_position(width-400,250)
-        self.waterS = arcade.Sprite('image/water.png')
+        self.waterS = arcade.Sprite('image/water.png',0.65)
         self.waterS.set_position(width-400,250)
+        self.boilS = arcade.Sprite('image/boil.png',0.65)
+        self.boilS.set_position(width-400,250)
+        
         
     def on_draw(self):
         arcade.start_render()
@@ -31,6 +34,8 @@ class SpaceGameWindow(arcade.Window):
             self.noodleS.draw()
         if(self.ndworld.outkey == 'w'):
             self.waterS.draw()
+        if(self.ndworld.outkey == 'b'):
+            self.boilS.draw()
         
     def on_key_press(self, key, key_modifiers):
         self.ndworld.on_key_press(key, key_modifiers)
