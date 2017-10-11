@@ -38,6 +38,8 @@ class World:
             self.outkey = 'i'
         elif key == arcade.key.SPACE:
             self.outkey = 'b'
+        elif key == arcade.key.ENTER:
+            self.outkey = 'enter'
         else:
             self.outkey = ''
     
