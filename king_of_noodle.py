@@ -1,10 +1,15 @@
 import arcade
 import arcade.key
+import sys
 from noodle import World#,Noodle,Water
 
 SCREEN_WIDTH = 1191
 SCREEN_HEIGHT = 670
-
+W = False
+N = False
+S = False
+I = False
+B = False
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
         self.ndworld = World(width,height)
@@ -27,20 +32,33 @@ class SpaceGameWindow(arcade.Window):
         self.ingd.set_position(width-400,200)        
         
     def on_draw(self):
+        global N,W,B,S,I
+        if self.ndworld.outkey == 'n':
+            N = True
+        if self.ndworld.outkey == 'w':
+            W = True
+        if self.ndworld.outkey == 'b':
+            B = True
+        if self.ndworld.outkey == 's':
+            S = True
+        if self.ndworld.outkey == 'i':
+            I = True
+        if self.ndworld.outkey == 'esc':
+            sys.exit()
+
         arcade.start_render()
         self.bg.draw()
         self.bowl.draw()
-        if(self.ndworld.outkey == 'n'):
-            self.noodleS.draw()
-        if(self.ndworld.outkey == 'w'):
+        if W:
             self.waterS.draw()
-        if(self.ndworld.outkey == 'b'):
+        if B:
             self.boilS.draw()
-        if(self.ndworld.outkey == 's'):
+        if N:
+            self.noodleS.draw()
+        if S:
             self.sauceS.draw()
-        if(self.ndworld.outkey == 'i'):
+        if I:
             self.ingd.draw()
-        
     def on_key_press(self, key, key_modifiers):
         self.ndworld.on_key_press(key, key_modifiers)
 if __name__ == '__main__':

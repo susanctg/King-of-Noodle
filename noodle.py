@@ -1,28 +1,7 @@
 import arcade.key
-'''
-class Noodle:
-    def __init__(self,world, x, y):
-        self.x = x
-        self.y = y
-
-class Water:
-    def __init__(self,world, wx, wy):
-        self.wx = wx
-        self.wy = wy
-
-class sauce:
-    def __init__(self,world, sx, sy):
-        self.sx = sx
-        self.sy = sy
-
-'''
 class World:
     def __init__(self,width,height):
         self.outkey = ''
-#        self.width = width
-#        self.height = height
-#        self.noodle = Noodle(self,100,100)
-#        self.water = Water(self,100,100)
     
     def update(self,delta):
         self.ship.update(delta)
@@ -40,6 +19,8 @@ class World:
             self.outkey = 'b'
         elif key == arcade.key.ENTER:
             self.outkey = 'enter'
+        elif key == arcade.key.ESCAPE:
+            self.outkey = 'esc'
         else:
             self.outkey = ''
     
