@@ -12,6 +12,7 @@ N = False
 S = False
 I = False
 timetoboil = False
+timetostir = False
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
         global block_x,block_y
@@ -31,9 +32,14 @@ class SpaceGameWindow(arcade.Window):
         self.sauceS.set_position(width-400,200)
         self.ingd = arcade.Sprite('image/ingredient.png',0.8)
         self.ingd.set_position(width-400,200)
+        self.soup = arcade.Sprite('image/stir_sauce.png',0.8)
+        self.soup.set_position(width-400,200)
+        
 
         self.boil = arcade.Sprite('image/boil_bar.png',0.8)
         self.boil.set_position(width-400,480)
+        self.stir = arcade.Sprite('image/stir_bar.png',0.8)
+        self.stir.set_position(width-400,480)        
 
         self.b1 = arcade.Sprite('image/block1.png',0.8)
         self.b1.set_position(block_x,block_y)      
@@ -52,18 +58,26 @@ class SpaceGameWindow(arcade.Window):
           
         
     def on_draw(self):
-        global N,W,B,S,I,timetoboil,block_x,block_y
+        global N,W,B,S,I,timetoboil,timetostir
         block = [self.b1,self.b2,self.b3,self.b4,self.b5,self.b6,self.b7]
-        i=1
         if self.ndworld.outkey == 'n':
             N = True
         if self.ndworld.outkey == 'w':
             W = True
             timetoboil = True
         if self.ndworld.outkey == 's':
-            S = True
+            timetostir = True
         if self.ndworld.outkey == 'i':
             I = True
+        if self.ndworld.outkey == 'delete':
+            W = False
+            N = False
+            S = False
+            I = False
+            timetoboil = False
+            timetostir = False
+            self.ndworld.countboil = -1
+            self.ndworld.countstir = -1                
         if self.ndworld.outkey == 'esc':
             sys.exit()
 
@@ -72,14 +86,25 @@ class SpaceGameWindow(arcade.Window):
         self.bowl.draw()
         if W:
             self.waterS.draw()
+
+        if S:
+            self.soup.draw()
+
         if timetoboil and self.ndworld.countboil<7:
             self.boil.draw()
             if self.ndworld.countboil>=0:
                 block[self.ndworld.countboil].draw()
         if N:
             self.noodleS.draw()
-        if S:
+
+        if timetostir and self.ndworld.countstir<7:
+            self.stir.draw()
             self.sauceS.draw()
+            if self.ndworld.countstir>=0:
+                block[self.ndworld.countstir].draw()
+        elif timetostir:
+            S = True
+
         if I:
             self.ingd.draw()
         
