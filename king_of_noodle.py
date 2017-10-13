@@ -13,12 +13,14 @@ S = False
 I = False
 timetoboil = False
 timetostir = False
+addnd = False
+
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
         global block_x,block_y
         self.ndworld = World(width,height)
         super().__init__(width, height)
- 
+
         arcade.set_background_color(arcade.color.WHITE)
         self.bg = arcade.Sprite('image/full.jpg')
         self.bg.set_position(width//2,height//2)
@@ -35,12 +37,22 @@ class SpaceGameWindow(arcade.Window):
         self.soup = arcade.Sprite('image/stir_sauce.png',0.8)
         self.soup.set_position(width-400,200)
         
-
+#bar
+        self.ndbar = arcade.Sprite('image/noodle_bar.png',0.8)
+        self.ndbar.set_position(width-400,480)
+        self.waterbar = arcade.Sprite('image/water_bar.png',0.8)
+        self.waterbar.set_position(width-400,480)
+        self.saucebar = arcade.Sprite('image/sauce_bar.png',0.8)
+        self.saucebar.set_position(width-400,480)
+        self.ingdbar = arcade.Sprite('image/ingd_bar.png',0.8)
+        self.ingdbar.set_position(width-400,480)
+        self.donebar = arcade.Sprite('image/done_bar.png',0.8)
+        self.donebar.set_position(width-400,480)
         self.boil = arcade.Sprite('image/boil_bar.png',0.8)
         self.boil.set_position(width-400,480)
         self.stir = arcade.Sprite('image/stir_bar.png',0.8)
         self.stir.set_position(width-400,480)        
-
+#block
         self.b1 = arcade.Sprite('image/block1.png',0.8)
         self.b1.set_position(block_x,block_y)      
         self.b2 = arcade.Sprite('image/block2.png',0.8)
@@ -56,15 +68,15 @@ class SpaceGameWindow(arcade.Window):
         self.b7 = arcade.Sprite('image/block7.png',0.8)
         self.b7.set_position(block_x,block_y)      
           
-        
+
     def on_draw(self):
-        global N,W,B,S,I,timetoboil,timetostir
+        global N,W,B,S,I,timetoboil,timetostir,addnd
         block = [self.b1,self.b2,self.b3,self.b4,self.b5,self.b6,self.b7]
         if self.ndworld.outkey == 'n':
             N = True
         if self.ndworld.outkey == 'w':
             W = True
-            timetoboil = True
+            timetoboil = True 
         if self.ndworld.outkey == 's':
             timetostir = True
         if self.ndworld.outkey == 'i':
@@ -81,21 +93,29 @@ class SpaceGameWindow(arcade.Window):
         if self.ndworld.outkey == 'esc':
             sys.exit()
 
+
+
         arcade.start_render()
         self.bg.draw()
         self.bowl.draw()
+        self.ndbar.draw()
+
+        if N:
+            self.waterbar.draw()
         if W:
+            self.saucebar.draw()
             self.waterS.draw()
 
         if S:
             self.soup.draw()
+            self.ingdbar.draw()
 
         if timetoboil and self.ndworld.countboil<7:
             self.boil.draw()
             if self.ndworld.countboil>=0:
                 block[self.ndworld.countboil].draw()
         if N:
-            self.noodleS.draw()
+            self.noodleS.draw()    
 
         if timetostir and self.ndworld.countstir<7:
             self.stir.draw()
@@ -107,6 +127,7 @@ class SpaceGameWindow(arcade.Window):
 
         if I:
             self.ingd.draw()
+            self.donebar.draw()
         
     def on_key_press(self, key, key_modifiers):
         self.ndworld.on_key_press(key, key_modifiers)
