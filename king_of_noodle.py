@@ -1,6 +1,7 @@
 import arcade
 import arcade.key
 import sys
+from random import randint
 from noodle import World
 
 SCREEN_WIDTH = 1191
@@ -13,7 +14,6 @@ S = False
 I = False
 timetoboil = False
 timetostir = False
-addnd = False
 
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
@@ -37,7 +37,7 @@ class SpaceGameWindow(arcade.Window):
         self.soup = arcade.Sprite('image/stir_sauce.png',0.8)
         self.soup.set_position(width-400,200)
         
-#bar
+        #bar
         self.ndbar = arcade.Sprite('image/noodle_bar.png',0.8)
         self.ndbar.set_position(width-400,480)
         self.waterbar = arcade.Sprite('image/water_bar.png',0.8)
@@ -52,26 +52,35 @@ class SpaceGameWindow(arcade.Window):
         self.boil.set_position(width-400,480)
         self.stir = arcade.Sprite('image/stir_bar.png',0.8)
         self.stir.set_position(width-400,480)        
-#block
-        self.b1 = arcade.Sprite('image/block1.png',0.8)
-        self.b1.set_position(block_x,block_y)      
-        self.b2 = arcade.Sprite('image/block2.png',0.8)
-        self.b2.set_position(block_x,block_y)      
-        self.b3 = arcade.Sprite('image/block3.png',0.8)
-        self.b3.set_position(block_x,block_y)      
-        self.b4 = arcade.Sprite('image/block4.png',0.8)
-        self.b4.set_position(block_x,block_y)      
-        self.b5 = arcade.Sprite('image/block5.png',0.8)
-        self.b5.set_position(block_x,block_y)      
-        self.b6 = arcade.Sprite('image/block6.png',0.8)
-        self.b6.set_position(block_x,block_y)      
-        self.b7 = arcade.Sprite('image/block7.png',0.8)
-        self.b7.set_position(block_x,block_y)      
-          
+        #block
+        self.block = arcade.Sprite('image/block1.png',0.8)  
+        #key
+        self.r = arcade.Sprite('image/right.png',0.2)
+        self.r.set_position(block_x+35,block_y-75)      
+        self.l = arcade.Sprite('image/left.png',0.2)
+        self.l.set_position(block_x-35,block_y-75)      
+        self.spb = arcade.Sprite('image/space.png',0.8)
+        self.spb.set_position(block_x,block_y)     
+
+        self.num = []
+        self.num.append(arcade.Sprite('image/one.png',0.8))
+        self.num.append(arcade.Sprite('image/two.png',0.8))
+        self.num.append(arcade.Sprite('image/three.png',0.8))
+        self.num.append(arcade.Sprite('image/four.png',0.8))
+        self.num.append(arcade.Sprite('image/five.png',0.8))
+
+    def addblock(self,num):
+        i = num
+        j = 0
+        while j <= i and i < 7:
+            self.block.set_position(block_x+(j*48),block_y)
+            self.block.draw()
+            j += 1        
 
     def on_draw(self):
-        global N,W,B,S,I,timetoboil,timetostir,addnd
-        block = [self.b1,self.b2,self.b3,self.b4,self.b5,self.b6,self.b7]
+        global N,W,B,S,I,timetoboil,timetostir
+        #block = [self.b1,self.b2,self.b3,self.b4,self.b5,self.b6,self.b7]
+
         if self.ndworld.outkey == 'n':
             N = True
         if self.ndworld.outkey == 'w':
@@ -92,14 +101,21 @@ class SpaceGameWindow(arcade.Window):
             self.ndworld.countstir = -1                
         if self.ndworld.outkey == 'esc':
             sys.exit()
-
-
-
+        
+        #start render
         arcade.start_render()
         self.bg.draw()
         self.bowl.draw()
         self.ndbar.draw()
 
+        x = self.num[self.ndworld.numsauce-1]
+        x.set_position(225,124)
+        x.draw()
+
+        y = self.num[self.ndworld.numingd-1]
+        y.set_position(225,58)
+        y.draw()
+    
         if N:
             self.waterbar.draw()
         if W:
@@ -112,16 +128,18 @@ class SpaceGameWindow(arcade.Window):
 
         if timetoboil and self.ndworld.countboil<7:
             self.boil.draw()
-            if self.ndworld.countboil>=0:
-                block[self.ndworld.countboil].draw()
+            self.spb.draw()
+            self.addblock(self.ndworld.countboil)
+            
         if N:
             self.noodleS.draw()    
 
         if timetostir and self.ndworld.countstir<7:
             self.stir.draw()
+            self.l.draw()
+            self.r.draw()
             self.sauceS.draw()
-            if self.ndworld.countstir>=0:
-                block[self.ndworld.countstir].draw()
+            self.addblock(self.ndworld.countstir)
         elif timetostir:
             S = True
 
