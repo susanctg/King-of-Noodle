@@ -51,7 +51,7 @@ class World:
             s = True
         elif key == arcade.key.S and s and self.countboil >= 7:
             add_sauce += 1
-        elif key == arcade.key.ENTER and s:
+        elif key == arcade.key.ENTER and s and self.countboil>=7:
             print("sauce : ",add_sauce)
             lr = True
             i = True
@@ -60,7 +60,7 @@ class World:
         elif key == arcade.key.I and i and self.countstir >= 7:
             add_ingd += 1
             
-        elif key == arcade.key.ENTER and i:
+        elif key == arcade.key.ENTER and i and self.countstir>=7:
             print("ingd : ",add_ingd)
             self.outkey = 'i'
             check_score(add_sauce,add_ingd)
