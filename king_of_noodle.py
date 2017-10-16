@@ -57,11 +57,14 @@ class SpaceGameWindow(arcade.Window):
         self.block = arcade.Sprite('image/block1.png',0.8)  
         #num
         self.num = []
+        self.num.append(arcade.Sprite('image/zero.png',0.8))
         self.num.append(arcade.Sprite('image/one.png',0.8))
         self.num.append(arcade.Sprite('image/two.png',0.8))
         self.num.append(arcade.Sprite('image/three.png',0.8))
         self.num.append(arcade.Sprite('image/four.png',0.8))
         self.num.append(arcade.Sprite('image/five.png',0.8))
+
+        self.x = arcade.Sprite('image/x.png',0.8)
 
     def addblock(self,num):
         i = num
@@ -104,14 +107,34 @@ class SpaceGameWindow(arcade.Window):
         self.bowl.draw()
         self.ndbar.draw()
 
-        x = self.num[self.ndworld.numsauce-1]
-        x.set_position(225,124)
-        x.draw()
+        s_num = self.num[self.ndworld.numsauce]
+        s_num.set_position(225,124)
+        s_num.draw()
 
-        y = self.num[self.ndworld.numingd-1]
-        y.set_position(225,58)
-        y.draw()
-    
+        i_num = self.num[self.ndworld.numingd]
+        i_num.set_position(225,58)
+        i_num.draw()
+
+        posx = 300
+        posy = 205
+        
+        a_s_num = self.num[self.ndworld.addsauce]
+        a_s_num.set_position(posx+50,posy+95)
+        a_s_num.draw()
+
+        a_i_num = self.num[self.ndworld.addingd]
+        a_i_num.set_position(posx+50,posy)
+        a_i_num.draw()
+        
+        
+        x_1 = self.x
+        x_1.set_position(posx,posy)
+        x_1.draw()
+
+        x_2 = self.x
+        x_2.set_position(posx,posy+95)
+        x_2.draw()
+
         if N:
             self.waterbar.draw()
         if W:
@@ -129,7 +152,7 @@ class SpaceGameWindow(arcade.Window):
            # self.spb.draw()
             self.addblock(self.ndworld.countboil)
         elif self.ndworld.countboil>=7 and timetosauce:
-            print(timetosauce)
+        #    print(timetosauce)
             self.saucebar.draw()
             
         if N:

@@ -26,14 +26,19 @@ def check_score(s,i):
     print ('score : ',score)
 
 class World:
+    global add_ingd,add_sauce,sauce_amount,ingd_amount
     def __init__(self,width,height):
+        #global add_ingd,add_sauce
         self.outkey = ''
         self.countboil = -1
         self.countstir = -1
         self.numsauce = sauce_amount
         self.numingd = ingd_amount
-    def update(self,delta):
-        self.ship.update(delta)
+        self.addsauce = add_sauce
+        self.addingd = add_ingd
+#    def update(self,delta):
+#        self.ship.update(delta)
+#        self.addsauce = add_sauce
     
     def on_key_press(self,key,key_modifiers):
         global w,s,i,space,lr,add_sauce,add_ingd
@@ -77,4 +82,5 @@ class World:
             self.outkey = 'esc'
         else:
             self.outkey = ''
-    
+        self.addsauce = add_sauce
+        self.addingd = add_ingd
