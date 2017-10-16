@@ -14,6 +14,7 @@ S = False
 I = False
 timetoboil = False
 timetostir = False
+timetosauce = False
 
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
@@ -54,14 +55,7 @@ class SpaceGameWindow(arcade.Window):
         self.stir.set_position(width-400,480)        
         #block
         self.block = arcade.Sprite('image/block1.png',0.8)  
-        #key
-        self.r = arcade.Sprite('image/right.png',0.2)
-        self.r.set_position(block_x+35,block_y-75)      
-        self.l = arcade.Sprite('image/left.png',0.2)
-        self.l.set_position(block_x-35,block_y-75)      
-        self.spb = arcade.Sprite('image/space.png',0.8)
-        self.spb.set_position(block_x,block_y)     
-
+        #num
         self.num = []
         self.num.append(arcade.Sprite('image/one.png',0.8))
         self.num.append(arcade.Sprite('image/two.png',0.8))
@@ -78,16 +72,18 @@ class SpaceGameWindow(arcade.Window):
             j += 1        
 
     def on_draw(self):
-        global N,W,B,S,I,timetoboil,timetostir
-        #block = [self.b1,self.b2,self.b3,self.b4,self.b5,self.b6,self.b7]
-
+        global N,W,B,S,I,timetoboil,timetostir,timetosauce
+        
         if self.ndworld.outkey == 'n':
             N = True
         if self.ndworld.outkey == 'w':
             W = True
             timetoboil = True 
         if self.ndworld.outkey == 's':
+        #    W = False
+            timetosauce = False
             timetostir = True
+        #    print(timetosauce)
         if self.ndworld.outkey == 'i':
             I = True
         if self.ndworld.outkey == 'delete':
@@ -97,11 +93,11 @@ class SpaceGameWindow(arcade.Window):
             I = False
             timetoboil = False
             timetostir = False
+            timetosauce = False
             self.ndworld.countboil = -1
             self.ndworld.countstir = -1                
         if self.ndworld.outkey == 'esc':
             sys.exit()
-        
         #start render
         arcade.start_render()
         self.bg.draw()
@@ -119,25 +115,30 @@ class SpaceGameWindow(arcade.Window):
         if N:
             self.waterbar.draw()
         if W:
-            self.saucebar.draw()
             self.waterS.draw()
+            if not timetostir:
+                timetosauce = True
 
         if S:
             self.soup.draw()
-            self.ingdbar.draw()
+            if not I:
+                self.ingdbar.draw()
 
         if timetoboil and self.ndworld.countboil<7:
             self.boil.draw()
-            self.spb.draw()
+           # self.spb.draw()
             self.addblock(self.ndworld.countboil)
+        elif self.ndworld.countboil>=7 and timetosauce:
+            print(timetosauce)
+            self.saucebar.draw()
             
         if N:
             self.noodleS.draw()    
 
         if timetostir and self.ndworld.countstir<7:
             self.stir.draw()
-            self.l.draw()
-            self.r.draw()
+            #self.l.draw()
+            #self.r.draw()
             self.sauceS.draw()
             self.addblock(self.ndworld.countstir)
         elif timetostir:
