@@ -69,16 +69,21 @@ class SpaceGameWindow(arcade.Window):
         self.num.append(arcade.Sprite('image/nine.png',1))
 
         self.x = arcade.Sprite('image/x.png',0.8)
-        self.total_time = 0
+        self.total_time = 30+4
         self.time = [0,0]
 
     def update(self,delta_time):
-        self.total_time += (delta_time)%60
-        print(int(self.total_time))
+        self.total_time -= (delta_time)%60
         self.time[0] = int(self.total_time%100)//10
         self.time[1] = int(self.total_time)%10
-        print(self.time[0])
-        print(self.time[1])
+        if self.total_time == 0 or self.ndworld.outkey == 'done':
+            self.ndworld.score += int(self.total_time)*5
+            print('total time : ',int(self.total_time))
+            print ('final score : ',self.ndworld.score)
+            self.total_time -= 1
+            self.ndworld.outkey = ''
+            #arcade.pause(4)
+        
     def addblock(self,num):
         i = num
         j = 0
@@ -102,6 +107,7 @@ class SpaceGameWindow(arcade.Window):
         #    print(timetosauce)
         if self.ndworld.outkey == 'i':
             I = True
+            self.ndworld.outkey = 'done'
         if self.ndworld.outkey == 'delete':
             W = False
             N = False
@@ -114,12 +120,12 @@ class SpaceGameWindow(arcade.Window):
             self.ndworld.countstir = -1                
         if self.ndworld.outkey == 'esc':
             sys.exit()
-        #start render
+    #start render
         arcade.start_render()
         self.bg.draw()
         self.bowl.draw()
         self.ndbar.draw()
-
+    #list
         s_num = self.num[self.ndworld.numsauce]
         s_num.set_position(225,124)
         s_num.draw()
@@ -148,15 +154,15 @@ class SpaceGameWindow(arcade.Window):
         x_2.set_position(posx,posy+95)
         x_2.draw()
 
-        time_1 = self.num[self.time[0]]
-        time_1.set_position(300,500)
-        time_1.draw()
+        if self.total_time >= 0:
+            time_1 = self.num[self.time[0]]
+            time_1.set_position(300,500)
+            time_1.draw()
 
-
-        time_2 = self.num[self.time[1]]
-        time_2.set_position(350,500)
-        time_2.draw()
-
+            time_2 = self.num[self.time[1]]
+            time_2.set_position(350,500)
+            time_2.draw()
+    #switch
         if N:
             self.waterbar.draw()
         if W:

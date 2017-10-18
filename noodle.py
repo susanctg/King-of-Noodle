@@ -13,17 +13,6 @@ print('s : ',sauce_amount)
 print('i : ',ingd_amount)
 #sauce_amount = 2
 #ingd_amount = 3
-def check_score(s,i):
-    score = 50
-    if sauce_amount == s :
-        score += 50
-    if ingd_amount == i:
-        score += 50
-    print('sauce amount : ',sauce_amount)
-    print('add sauce : ',s)
-    print('ingd amount : ',ingd_amount)
-    print('add ingd : ',i)
-    print ('score : ',score)
 
 class World:
     global add_ingd,add_sauce,sauce_amount,ingd_amount
@@ -36,7 +25,20 @@ class World:
         self.numingd = ingd_amount
         self.addsauce = add_sauce
         self.addingd = add_ingd
-    
+        self.score = 0
+    def check_score(self,s,i):
+        self.score = 50
+        if sauce_amount == s :
+            self.score += 50
+        if ingd_amount == i:
+            self.score += 50
+        #if self.remain_time >= 0:
+        #    self.score += self.remain_time 
+        print('sauce amount : ',sauce_amount)
+        print('add sauce : ',s)
+        print('ingd amount : ',ingd_amount)
+        print('add ingd : ',i)
+
     def on_key_press(self,key,key_modifiers):
         global w,s,i,space,lr,add_sauce,add_ingd
         if key == arcade.key.N:
@@ -59,8 +61,8 @@ class World:
             
         elif key == arcade.key.ENTER and i and self.countstir>=7:
             print("ingd : ",add_ingd)
-            self.outkey = 'i'
-            check_score(add_sauce,add_ingd)
+            self.outkey = 'i' 
+            self.check_score(add_sauce,add_ingd)
    
         elif key == arcade.key.SPACE and space:       
             self.countboil += 1
