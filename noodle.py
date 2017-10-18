@@ -36,9 +36,6 @@ class World:
         self.numingd = ingd_amount
         self.addsauce = add_sauce
         self.addingd = add_ingd
-#    def update(self,delta):
-#        self.ship.update(delta)
-#        self.addsauce = add_sauce
     
     def on_key_press(self,key,key_modifiers):
         global w,s,i,space,lr,add_sauce,add_ingd

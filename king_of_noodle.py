@@ -57,15 +57,28 @@ class SpaceGameWindow(arcade.Window):
         self.block = arcade.Sprite('image/block1.png',0.8)  
         #num
         self.num = []
-        self.num.append(arcade.Sprite('image/zero.png',0.8))
+        self.num.append(arcade.Sprite('image/zero.png',1))
         self.num.append(arcade.Sprite('image/one.png',0.8))
         self.num.append(arcade.Sprite('image/two.png',0.8))
         self.num.append(arcade.Sprite('image/three.png',0.8))
         self.num.append(arcade.Sprite('image/four.png',0.8))
         self.num.append(arcade.Sprite('image/five.png',0.8))
+        self.num.append(arcade.Sprite('image/six.png',1))
+        self.num.append(arcade.Sprite('image/seven.png',1))
+        self.num.append(arcade.Sprite('image/eight.png',1))
+        self.num.append(arcade.Sprite('image/nine.png',1))
 
         self.x = arcade.Sprite('image/x.png',0.8)
+        self.total_time = 0
+        self.time = [0,0]
 
+    def update(self,delta_time):
+        self.total_time += (delta_time)%60
+        print(int(self.total_time))
+        self.time[0] = int(self.total_time%100)//10
+        self.time[1] = int(self.total_time)%10
+        print(self.time[0])
+        print(self.time[1])
     def addblock(self,num):
         i = num
         j = 0
@@ -134,6 +147,15 @@ class SpaceGameWindow(arcade.Window):
         x_2 = self.x
         x_2.set_position(posx,posy+95)
         x_2.draw()
+
+        time_1 = self.num[self.time[0]]
+        time_1.set_position(300,500)
+        time_1.draw()
+
+
+        time_2 = self.num[self.time[1]]
+        time_2.set_position(350,500)
+        time_2.draw()
 
         if N:
             self.waterbar.draw()
