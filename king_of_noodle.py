@@ -91,9 +91,6 @@ class SpaceGameWindow(arcade.Window):
         if int(self.total_time) == 0:
             self.ndworld.outkey = 'lose'
             self.total_time = -1
-            
-            #game over
-            #arcade.pause(4)
         
     def addblock(self,num):
         i = num
@@ -105,7 +102,7 @@ class SpaceGameWindow(arcade.Window):
 
     def on_draw(self):
         global N,W,B,S,I,timetoboil,timetostir,timetosauce
-        
+    #outkey
         if self.ndworld.outkey == 'n':
             N = True
         if self.ndworld.outkey == 'w':
@@ -211,9 +208,31 @@ class SpaceGameWindow(arcade.Window):
             self.ingd.draw()
             self.donebar.draw()
         
+
+    #end
+
         if self.ndworld.outkey == 'win':
             #print('outkey : ',self.ndworld.outkey)
             self.win.draw()
+
+            sc = [0,0,0]
+            sc[0] = self.ndworld.score//100
+            sc[1] = (self.ndworld.score%100)//10
+            sc[2] = self.ndworld.score%10
+            
+            f_sc = self.num[sc[0]]
+            f_sc.set_position(600-45,200-55)
+            f_sc.draw()
+
+            s_sc = self.num[sc[1]]
+            s_sc.set_position(650-45,200-55)
+            s_sc.draw()
+
+            t_sc = self.num[sc[2]]
+            t_sc.set_position(700-45,200-55)
+            t_sc.draw()
+
+            
         if self.ndworld.outkey == 'lose':
             self.lose.draw()
         
