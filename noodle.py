@@ -49,7 +49,11 @@ class World:
             space = True
             s = True
         elif key == arcade.key.S and s and self.countboil >= 7:
-            add_sauce += 1
+            if add_sauce < 9:
+                add_sauce += 1
+            else:
+                add_sauce = 9
+            
         elif key == arcade.key.ENTER and s and self.countboil>=7:
             print("sauce : ",add_sauce)
             lr = True
@@ -57,7 +61,10 @@ class World:
             self.outkey = 's'
             s = False
         elif key == arcade.key.I and i and self.countstir >= 7:
-            add_ingd += 1
+            if add_ingd < 9:
+                add_ingd += 1
+            else:
+                add_ingd = 9
             
         elif key == arcade.key.ENTER and i and self.countstir>=7:
             print("ingd : ",add_ingd)

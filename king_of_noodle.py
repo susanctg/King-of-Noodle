@@ -23,6 +23,10 @@ class SpaceGameWindow(arcade.Window):
         super().__init__(width, height)
 
         arcade.set_background_color(arcade.color.WHITE)
+        self.win = arcade.Sprite('image/win.jpg')
+        self.win.set_position(width//2,height//2)
+        self.lose = arcade.Sprite('image/game_over.jpg')
+        self.lose.set_position(width//2,height//2)
         self.bg = arcade.Sprite('image/full.jpg')
         self.bg.set_position(width//2,height//2)
         self.bowl = arcade.Sprite('image/bowl.png',0.8)
@@ -69,6 +73,7 @@ class SpaceGameWindow(arcade.Window):
         self.num.append(arcade.Sprite('image/nine.png',1))
 
         self.x = arcade.Sprite('image/x.png',0.8)
+    #    self.total_time = 6
         self.total_time = 30+4
         self.time = [0,0]
 
@@ -76,12 +81,18 @@ class SpaceGameWindow(arcade.Window):
         self.total_time -= (delta_time)%60
         self.time[0] = int(self.total_time%100)//10
         self.time[1] = int(self.total_time)%10
-        if self.total_time == 0 or self.ndworld.outkey == 'done':
+        if self.ndworld.outkey == 'done':
             self.ndworld.score += int(self.total_time)*5
-            print('total time : ',int(self.total_time))
+            print('remain time : ',int(self.total_time))
             print ('final score : ',self.ndworld.score)
-            self.total_time -= 1
-            self.ndworld.outkey = ''
+            self.total_time = -1
+            self.ndworld.outkey = 'win'
+
+        if int(self.total_time) == 0:
+            self.ndworld.outkey = 'lose'
+            self.total_time = -1
+            
+            #game over
             #arcade.pause(4)
         
     def addblock(self,num):
@@ -117,7 +128,8 @@ class SpaceGameWindow(arcade.Window):
             timetostir = False
             timetosauce = False
             self.ndworld.countboil = -1
-            self.ndworld.countstir = -1                
+            self.ndworld.countstir = -1
+            self.total_time = 30                
         if self.ndworld.outkey == 'esc':
             sys.exit()
     #start render
@@ -153,14 +165,14 @@ class SpaceGameWindow(arcade.Window):
         x_2 = self.x
         x_2.set_position(posx,posy+95)
         x_2.draw()
-
+    #clock
         if self.total_time >= 0:
             time_1 = self.num[self.time[0]]
-            time_1.set_position(300,500)
+            time_1.set_position(200-32,589)
             time_1.draw()
 
             time_2 = self.num[self.time[1]]
-            time_2.set_position(350,500)
+            time_2.set_position(250-32-10,589)
             time_2.draw()
     #switch
         if N:
@@ -198,6 +210,13 @@ class SpaceGameWindow(arcade.Window):
         if I:
             self.ingd.draw()
             self.donebar.draw()
+        
+        if self.ndworld.outkey == 'win':
+            #print('outkey : ',self.ndworld.outkey)
+            self.win.draw()
+        if self.ndworld.outkey == 'lose':
+            self.lose.draw()
+        
         
     def on_key_press(self, key, key_modifiers):
         self.ndworld.on_key_press(key, key_modifiers)
