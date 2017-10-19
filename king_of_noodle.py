@@ -15,7 +15,9 @@ I = False
 timetoboil = False
 timetostir = False
 timetosauce = False
-
+check_over = True
+check_win = False
+check_lose = False 
 class SpaceGameWindow(arcade.Window):
     def __init__(self, width, height):
         global block_x,block_y
@@ -74,9 +76,11 @@ class SpaceGameWindow(arcade.Window):
 
         self.x = arcade.Sprite('image/x.png',0.8)
     #    self.total_time = 6
-        self.total_time = 30+4
+        self.total_time = 30+4+2
         self.time = [0,0]
-
+    # game state
+        self.game_state = 'play'
+        
     def update(self,delta_time):
         self.total_time -= (delta_time)%60
         self.time[0] = int(self.total_time%100)//10
@@ -86,10 +90,12 @@ class SpaceGameWindow(arcade.Window):
             print('remain time : ',int(self.total_time))
             print ('final score : ',self.ndworld.score)
             self.total_time = -1
+            self.game_state = 'over'
             self.ndworld.outkey = 'win'
 
         if int(self.total_time) == 0:
             self.ndworld.outkey = 'lose'
+            self.game_state = 'over'
             self.total_time = -1
         
     def addblock(self,num):
@@ -101,6 +107,18 @@ class SpaceGameWindow(arcade.Window):
             j += 1        
 
     def on_draw(self):
+        global check_over
+        if self.ndworld.outkey == 'esc':
+            sys.exit()
+    #start render
+        arcade.start_render()
+        self.bg.draw()
+        if self.game_state == 'play' and check_over:
+            self.draw_play()
+        if self.game_state == 'over':
+            check_over = False
+            self.draw_over()
+    def draw_play(self):
         global N,W,B,S,I,timetoboil,timetostir,timetosauce
     #outkey
         if self.ndworld.outkey == 'n':
@@ -127,11 +145,7 @@ class SpaceGameWindow(arcade.Window):
             self.ndworld.countboil = -1
             self.ndworld.countstir = -1
             self.total_time = 30                
-        if self.ndworld.outkey == 'esc':
-            sys.exit()
-    #start render
-        arcade.start_render()
-        self.bg.draw()
+        
         self.bowl.draw()
         self.ndbar.draw()
     #list
@@ -186,10 +200,8 @@ class SpaceGameWindow(arcade.Window):
 
         if timetoboil and self.ndworld.countboil<7:
             self.boil.draw()
-           # self.spb.draw()
             self.addblock(self.ndworld.countboil)
         elif self.ndworld.countboil>=7 and timetosauce:
-        #    print(timetosauce)
             self.saucebar.draw()
             
         if N:
@@ -197,8 +209,6 @@ class SpaceGameWindow(arcade.Window):
 
         if timetostir and self.ndworld.countstir<7:
             self.stir.draw()
-            #self.l.draw()
-            #self.r.draw()
             self.sauceS.draw()
             self.addblock(self.ndworld.countstir)
         elif timetostir:
@@ -208,10 +218,10 @@ class SpaceGameWindow(arcade.Window):
             self.ingd.draw()
             self.donebar.draw()
         
-
+    def draw_over(self):
     #end
-
-        if self.ndworld.outkey == 'win':
+        global check_lose,check_win
+        if self.ndworld.outkey == 'win' or check_win:
             #print('outkey : ',self.ndworld.outkey)
             self.win.draw()
 
@@ -232,11 +242,13 @@ class SpaceGameWindow(arcade.Window):
             t_sc.set_position(700-45,200-55)
             t_sc.draw()
 
+            check_win = True
             
-        if self.ndworld.outkey == 'lose':
+            
+        if self.ndworld.outkey == 'lose' or check_lose:
             self.lose.draw()
-        
-        
+            check_lose = True
+                    
     def on_key_press(self, key, key_modifiers):
         self.ndworld.on_key_press(key, key_modifiers)
 if __name__ == '__main__':
