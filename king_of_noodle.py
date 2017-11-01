@@ -76,7 +76,7 @@ class SpaceGameWindow(arcade.Window):
 
         self.x = arcade.Sprite('image/x.png',0.8)
     #    self.total_time = 6
-        self.total_time = 30+4+2
+        self.total_time = 30+4
         self.time = [0,0]
     # game state
         self.game_state = 'play'
